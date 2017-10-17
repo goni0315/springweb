@@ -12,11 +12,15 @@ xmlns="http://www.springframework.org/schema/security"
 <intercept-url pattern="/admin/*"     access="hasRole('ROLE_ADMIN')"/>
 <intercept-url pattern="/student/*"   access="hasRole('ROLE_STUDENT')"/>
 <intercept-url pattern="/teacher/*"   access="hasRole('ROLE_TEACHER')"/>
-<intercept-url pattern="/customer/*"  access="hasRole('ROLE_USER')"/>
+<!-- <intercept-url pattern="/customer/*"  access="hasRole('ROLE_USER')"/> -->
 
 
 <!-- spring에서 지원해주는 로그인창 말고 우리가 만든 것을 사용함 -->
-<form-login/>
+<form-login
+login-page="/member/login"
+default-target-url="/index"
+/>
+
 </http>
 
 

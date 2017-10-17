@@ -346,6 +346,7 @@ window.addEventListener("load", function() {
 window.addEventListener("load", function() {
 	   var cloneButton = document.querySelector("#ex2-clone input[value='단순복제']");
 	   var ajaxButton = document.querySelector("#ex2-clone input[value='Ajax요청']");
+	   var ajaxContainer = document.querySelector("#ajaxContainer");
 	   var tbody = document.querySelector("#ex2-clone tbody");
 		var template = document.querySelector("#ex2-clone template");   	   
 	   
@@ -362,16 +363,29 @@ window.addEventListener("load", function() {
 				
 				
 		     //비동기방식으로 요청을 
-		     xhr.onreadystatechange = function(e){
+	/* 	     xhr.onreadystatechange = function(e){
 				
 					if(xhr.readyState == 4)					
 						data = eval(xhr.responseText); 
-				};		
+				}; */		
 					
+				xhr.onload = function(){
+					data = JSON.parse(xhr.responseText);
+					//2.ajax icon 제거	
+					ajaxContainer.removeChild(ajaxContainer.lastChild);
+				};
+				
+				xhr.onerror = function(e){
+					
+					alert("오류발생");
+				}
 				xhr.open("GET", "../../customer/notice-ajax", true); 
 				xhr.send();
+				//1.ajax icon 추가
+				  var img = document.createElement("img");
+	                img.src ="../images/ajax-loader.gif";
+	                ajaxContainer.appendChild(img);
 				
-		
 	   
 		   
 		   }
@@ -419,9 +433,9 @@ window.addEventListener("load", function() {
 
 	<div id="ex2-clone">
 
-		<div>
-			<input type="button" value="단순복제" /> <input type="button"
-				value="Ajax요청" />
+		<div id="ajaxContainer">
+			<input type="button" value="단순복제" /> 
+			<input type="button" value="Ajax요청" />
 		</div>
 		<div id="clone-container">
 
