@@ -4,13 +4,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/*")
-public class HomeController {
+@RequestMapping("/member/*")
+public class MemberController {
 
-	@RequestMapping("index")
-	public String index() {
+	@RequestMapping("login")
+	public String login() {
 
-		return "home.index";
+		return "member.login";
 	}
 	
 	

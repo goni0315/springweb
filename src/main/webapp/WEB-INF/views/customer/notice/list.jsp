@@ -53,7 +53,7 @@
 						<td class="title indent"><a href="notice/${n.id}">${n.title}</a></td>
 						<td>newlec</td>
 						<td>
-							<fmt:formatDate pattern="yyyy-MM-dd" value="2017-02-28"/>		
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${regDate}"/>		
 						</td>
 						<td>12</td>
 					</tr>

@@ -11,6 +11,13 @@
     <put-attribute name="aside" value="/WEB-INF/views/inc/aside.jsp" />
   </definition>
   
+   <definition name="member.*" template="/WEB-INF/views/inc/sub-layout.jsp">
+    <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
+    <put-attribute name="main" value="/WEB-INF/views/member/{1}.jsp" />
+    <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
+    <put-attribute name="aside" value="/WEB-INF/views/inc/aside.jsp" />
+  </definition>
+  
     <definition name="customer.*.*" template="/WEB-INF/views/inc/sub-layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
     <put-attribute name="visual" value="/WEB-INF/views/customer/inc/visual.jsp" />
@@ -18,6 +25,7 @@
     <put-attribute name="main" value="/WEB-INF/views/customer/{1}/{2}.jsp" />
     <put-attribute name="footer" value="/WEB-INF/views/inc/footer.jsp" />
   </definition> 
+  
    
     <definition name="admin.*.*.*" template="/WEB-INF/views/inc/sub-layout.jsp">
     <put-attribute name="header" value="/WEB-INF/views/inc/header.jsp" />
