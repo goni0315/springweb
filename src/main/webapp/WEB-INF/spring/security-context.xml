@@ -21,16 +21,18 @@ login-page="/member/login"
 default-target-url="/index"
 />
 
+<logout logout-success-url="/index"/>
+
 </http>
 
 
 <!-- xml에  직접 아이디 패스워드 설정하는 방식은 in-memory방식-->
 <authentication-manager>
 <authentication-provider>
-<user-service>
-<user name="newlec" password="111" authorities="ROLE_USER, ROLE_ADMIN"/>
-<user name="dragon" password="111" authorities="ROLE_USER"/>
-</user-service>
+<jdbc-user-service data-source-ref="dataSource" 
+users-by-username-query="select id, pwd `password`, 1 enabled from Member where id=?"
+authorities-by-username-query="select id, 'ROLE_USER' authority from Member where id=?"
+/>
 </authentication-provider>
 </authentication-manager>
 
