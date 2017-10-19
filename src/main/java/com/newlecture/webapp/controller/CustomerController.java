@@ -36,6 +36,7 @@ public class CustomerController {
 		
 		
 		model.addAttribute("list", noticeDao.getList(page, field, query));
+		model.addAttribute("count", noticeDao.getCount());
 		
 		//String output = String.format("p:%s, q:%s", page, query);
 		//output += String.format("title : %s\n", list.get(0).getTitle());
@@ -56,8 +57,8 @@ public class CustomerController {
 	
 		
 		model.addAttribute("n", noticeDao.get(id));
-		model.addAttribute("prev", noticeDao.getPrev(id));
-		model.addAttribute("next", noticeDao.getNext(id));
+		//model.addAttribute("prev", noticeDao.getPrev(id));
+		//model.addAttribute("next", noticeDao.getNext(id));
 		
 		return "customer.notice.detail";
 	}

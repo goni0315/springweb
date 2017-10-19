@@ -428,15 +428,36 @@ window.addEventListener("load", function() {
 	
 	});	
 
+window.addEventListener("load", function() {
+	var fileInput = document.querySelector("#ex4-upload input");
+	var uploadButton = document.querySelector("#ex4-upload span");
+	
+	uploadButton.onclick = function(e){
+		var event = new MouseEvent("click", {
+			'view':window,
+			'bubles':true,
+			'cancelable':true		
+		})
+	fileInput.dispatchEvent(event);
+	}
+	
+});
 </script>
 </head>
 <body>
+<!-- --------------------------------------Ajax로 파일 전송하기와 트리거  예제 --------------------------------------------->
+
+	<div id="ex4-upload">
+		<input type="file" style="display: none;">
+		<span style="border:1px solid #999; border-radius:5px; background: pink; padding:3px; cursor:pointer;">파일선택</span>
+	</div>
+	<hr />
 <!-- --------------------------------------Ajax로 파일 전송하기 예제 --------------------------------------------->
 
 	<div id="ex3-upload">
-	<form action="../../upload" method="post" enctype="multipart/form-data">
+	<form action="../../upload?${_csrf.parameterName}=${_csrf.token}" method="post" enctype="multipart/form-data">
 		<div>
-		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+		<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
 			<input type="submit" value="전송" /> 
 			<input type="button" value="" />
 		</div>

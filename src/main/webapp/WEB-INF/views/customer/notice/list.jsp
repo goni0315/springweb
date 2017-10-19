@@ -35,7 +35,7 @@
 			</div>
 						
 			<div class="notice margin-top">
-				<h3 class="hidden">공지사항 목록</h3>
+				<h3 class="hidden">공지사항 목록(${count})</h3>
 				<table class="table">
 					<thead>
 						<tr>
@@ -53,7 +53,7 @@
 						<td class="title indent"><a href="notice/${n.id}">${n.title}</a></td>
 						<td>newlec</td>
 						<td>
-							<fmt:formatDate pattern="yyyy-MM-dd" value="${regDate}"/>		
+							<fmt:formatDate pattern="yyyy-MM-dd" value="${n.regDate}"/>		
 						</td>
 						<td>12</td>
 					</tr>
