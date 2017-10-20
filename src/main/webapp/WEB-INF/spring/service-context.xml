@@ -29,11 +29,10 @@
 	
 	
 	<!--  DAO 객체들-->
-	<bean class="com.newlecture.webapp.dao.spring.SpringNoticeDao" >
-	<property name="template" ref="template"></property>
-	</bean>
+	<bean class="com.newlecture.webapp.dao.spring.SpringNoticeDao" />	
+	<bean class="com.newlecture.webapp.dao.spring.SpringMemberDao" />
 	<bean class="com.newlecture.webapp.dao.mybatis.MyBatisNoticeFileDao" />
-<!-- 	<bean class="com.newlecture.webapp.dao.mybatis.MyBatisNoticeDao" />
+<!--<bean class="com.newlecture.webapp.dao.mybatis.MyBatisNoticeDao" />
 	<bean class="com.newlecture.webapp.dao.mybatis.MyBatisNoticeFileDao" /> -->
 
 <context:annotation-config />

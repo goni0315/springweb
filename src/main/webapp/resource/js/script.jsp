@@ -437,9 +437,45 @@ window.addEventListener("load", function() {
 			'view':window,
 			'bubles':true,
 			'cancelable':true		
-		})
-	fileInput.dispatchEvent(event);
-	}
+		});
+		
+		
+		
+		fileInput.dispatchEvent(event);
+		fileInput.onchange = function(){
+			
+			var file = fileInput.files[0];
+			
+			var formData = new FormData();
+			formData.append("title", "테스트");
+			formData.append("file", file);
+			
+			var xhr = new XMLHttpRequest();
+			xhr.upload.onprogress = function(e){
+				
+	            console.log(((e.loaded/e.total)*100).toFixed(0)+"%");
+	         };         
+	         
+			xhr.onload = function(){
+				
+			};
+			xhr.onerror = function(e){
+				
+				alert("오류발생");
+			};
+			xhr.open("POST", "../../upload?${_csrf.parameterName}=${_csrf.token}");
+			
+			xhr.send(formData);
+			
+			/* 			for(var key in fileInput.files[0])
+				alert(key); */
+			
+			
+		}
+		
+
+		
+	};
 	
 });
 </script>

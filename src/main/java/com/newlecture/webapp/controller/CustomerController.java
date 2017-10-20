@@ -62,6 +62,25 @@ public class CustomerController {
 		
 		return "customer.notice.detail";
 	}
+	
+	@RequestMapping("notice/edit/{id}")	
+	public String noticeEdit(
+				@PathVariable("id") String id,
+				Model model) {
+		
+	/*	select * from NoticeView where id < 250 order by regDate desc limit 1;
+
+		select * from NoticeView where id > 250 order by regDate asc limit 1;*/
+	
+		
+		model.addAttribute("n", noticeDao.get(id));
+		//model.addAttribute("prev", noticeDao.getPrev(id));
+		//model.addAttribute("next", noticeDao.getNext(id));
+		
+		return "customer.notice.edit";
+	}
+	
+	
 	@RequestMapping("notice-ajax")
 	@ResponseBody
 	public String noticeAjax(
@@ -89,5 +108,6 @@ public class CustomerController {
 		StringBuilder builder = new StringBuilder();
 
 		return json;
-	}
+	}	
+	
 }

@@ -9,7 +9,7 @@
 <body>
 	<h1>등록 페이지</h1>
 	<!--enctype 인코딩타입을 변경한다  -->
-	<form method="post" enctype="multipart/form-data">
+	<form method="post" enctype="multipart/form-data" action="?${_csrf.parameterName}=${_csrf.token}">
 		<fieldset>
 			<legend>공지사항 수정정보 필드</legend>
 			<table border="1">
@@ -34,6 +34,7 @@
 				</tbody>
 			</table>
 			<div>
+				<%-- <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> --%>
 				<input type="submit" value="등록" />
 				<a href="notice">취소</a>				
 			</div>

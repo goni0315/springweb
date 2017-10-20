@@ -2,6 +2,7 @@ package com.newlecture.webapp.dao.spring;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -11,13 +12,13 @@ import com.newlecture.webapp.entity.NoticeView;
 
 public class SpringNoticeDao implements NoticeDao {
 	
+	@Autowired
 	private JdbcTemplate template;
 	
-	
-
+/*	@Autowired
 	public void setTemplate(JdbcTemplate template) {
 		this.template = template;
-	}
+	}*/
 
 	@Override
 	public List<NoticeView> getList(int page, String field, String query) {
@@ -81,8 +82,28 @@ public class SpringNoticeDao implements NoticeDao {
 
 	@Override
 	public int update(String id, String title, String content) {
-		// TODO Auto-generated method stub
-		return 0;
+				
+		String sql = "update Notice set title=?, content = ? where id = ?";
+		
+		int result = template.update(sql, title, content, id);
+						
+		
+	/*	잘 안쓰는데 이것도 한가지 방법
+	 * int result = template.update(sql, new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement st) throws SQLException {
+				st.setString(1, title);
+				st.setString(2, content);
+				st.setString(3, id);				
+			}
+			
+		});*/
+		
+		
+		
+		return result;
+		
 	}
 
 	@Override
@@ -99,20 +120,33 @@ public class SpringNoticeDao implements NoticeDao {
 
 	@Override
 	public int insert(String title, String content, String writerId) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return insert(new Notice(title, content, writerId));
 	}
 
 	@Override
 	public int insert(Notice notice) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		String sql = "insert into Notice(id, title, content, writerId)\r\n" + 
+				"	values(?, ?, ?, ?)";
+		int result = template.update(sql,
+				getNextId(),
+				notice.getTitle(),
+				notice.getContent(),
+				notice.getWriterId());
+						
+		return result;
 	}
 
 	@Override
 	public String getNextId() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String sql = "select ifnull(max(cast(id as unsigned)), 0) +1 from Notice";
+		
+		String result = template.queryForObject(sql, String.class);
+		
+		
+		return result;
 	}
 
 }

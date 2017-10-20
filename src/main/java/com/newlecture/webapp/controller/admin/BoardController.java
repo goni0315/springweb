@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.Principal;
 import java.util.Calendar;
 
 import javax.servlet.ServletContext;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.newlecture.webapp.dao.MemberDao;
 import com.newlecture.webapp.dao.NoticeDao;
 import com.newlecture.webapp.dao.NoticeFileDao;
 import com.newlecture.webapp.entity.Notice;
@@ -33,6 +35,9 @@ public class BoardController {
 
 	@Autowired
 	private NoticeFileDao noticeFileDao;
+	
+	@Autowired
+	private MemberDao memberDao;
 
 	@RequestMapping("notice")
 	public String notice(
@@ -64,6 +69,19 @@ public class BoardController {
 		
 		return "admin.board.notice.detail";
 	}
+	@RequestMapping("notice/edit/{id}")	
+	public String noticeEdit(
+				@PathVariable("id") String id,
+				Model model) {
+		
+	//	model.addAttribute("n", noticeDao.get(id));
+		
+		return "admin.board.notice.edit";
+	}
+	
+	
+	
+	
 	@RequestMapping(value="notice/reg", method=RequestMethod.GET)
 	public String noticeReg() {
 		
@@ -72,10 +90,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="notice/reg", method=RequestMethod.POST)
-	public String noticeReg(Notice notice, String aa, MultipartFile file, HttpServletRequest request) throws IOException {
+	public String noticeReg(Principal principal, Notice notice, String aa, MultipartFile file, HttpServletRequest request) throws IOException {
 		
-		
-		
+		//principal 이게뭐라ㅓ고?
+		//file.isEmpty() 파일이 없으면 트루 조건처리를 해줘야함
 		// 날짜 얻기1
 		//Date curDate = new Date();
 		
@@ -133,8 +151,14 @@ public class BoardController {
 		System.out.println(notice.getTitle());
 		notice.setWriterId(writerId);	
 		//int row = noticeDao.insert(title, content, writerId);
+	
+		
+		//글이 등록되고 포인트가 적립되야함 둘다 되거나 둘다 안되거나 트랜잭션
 		int row = noticeDao.insert(notice);
-		noticeFileDao.insert(new NoticeFile(null, fileName, nextId));
+		memberDao.pointUp(principal.getName());
+		
+		
+		//noticeFileDao.insert(new NoticeFile(null, fileName, nextId));
 		
 		return "redirect:../notice";
 	}

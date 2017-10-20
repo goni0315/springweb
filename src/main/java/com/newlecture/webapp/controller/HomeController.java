@@ -31,10 +31,14 @@ public class HomeController {
 		  System.out.println(title);
 	      System.out.println(file.getOriginalFilename());      
 	      
+	      
 	      ServletContext ctx = request.getServletContext();
 	      String path = ctx.getRealPath("/resource/upload");      
 	      path += File.separator+file.getOriginalFilename();
+	      System.out.println("path : " + path);
 	      File f2 = new File(path);
+	      System.out.println("path : " + path);
+	      
 	      
 	      InputStream fis = file.getInputStream();
 	      OutputStream fos = new FileOutputStream(f2);
