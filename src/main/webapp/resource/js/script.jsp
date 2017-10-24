@@ -427,10 +427,32 @@ window.addEventListener("load", function() {
 	   };
 	
 	});	
-
+<!-- --------------------------------------Ajax로 파일 전송하기와 트리거  예제 --------------------------------------------->
 window.addEventListener("load", function() {
 	var fileInput = document.querySelector("#ex4-upload input");
 	var uploadButton = document.querySelector("#ex4-upload span");
+	var progressBar = document.querySelector("#progress-bar");
+	
+	var fileViewer = document.querySelector("#ex4-upload ul");
+	
+	//파일 목록 초기화	
+	var xhr = new XMLHttpRequest();
+	xhr.onload = function(e){
+		
+		var files = JSON.parse(e.target.responseText);		
+		for(var i=0; i<files.length; i++){
+			var li = document.createElement("li");
+			li.textContent = files[i];
+			fileViewer.appendChild(li);
+			
+		}		
+	};
+	xhr.open("GET", "../../file-list");	
+	xhr.send();
+	
+	//var a = document.create("a";)
+	
+	
 	
 	uploadButton.onclick = function(e){
 		var event = new MouseEvent("click", {
@@ -438,8 +460,7 @@ window.addEventListener("load", function() {
 			'bubles':true,
 			'cancelable':true		
 		});
-		
-		
+			
 		
 		fileInput.dispatchEvent(event);
 		fileInput.onchange = function(){
@@ -453,7 +474,10 @@ window.addEventListener("load", function() {
 			var xhr = new XMLHttpRequest();
 			xhr.upload.onprogress = function(e){
 				
-	            console.log(((e.loaded/e.total)*100).toFixed(0)+"%");
+				progressBar.textContent = ((e.loaded/e.total)*100).toFixed(0)+"%";
+				progressBar.style.width = ((e.loaded/e.total)*100).toFixed(0)+"px";
+				
+	            //console.log(((e.loaded/e.total)*100).toFixed(0)+"%");
 	         };         
 	         
 			xhr.onload = function(){
@@ -486,6 +510,12 @@ window.addEventListener("load", function() {
 	<div id="ex4-upload">
 		<input type="file" style="display: none;">
 		<span style="border:1px solid #999; border-radius:5px; background: pink; padding:3px; cursor:pointer;">파일선택</span>
+		<span id="progress-bar" style="background-color: red; display: inline-block;" ></span>
+		
+		<div>
+			<ul>
+			</ul>
+		</div>
 	</div>
 	<hr />
 <!-- --------------------------------------Ajax로 파일 전송하기 예제 --------------------------------------------->

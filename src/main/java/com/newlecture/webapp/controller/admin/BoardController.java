@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -20,24 +21,27 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.newlecture.webapp.dao.MemberDao;
-import com.newlecture.webapp.dao.NoticeDao;
-import com.newlecture.webapp.dao.NoticeFileDao;
 import com.newlecture.webapp.entity.Notice;
-import com.newlecture.webapp.entity.NoticeFile;
+import com.newlecture.webapp.entity.NoticeView;
+import com.newlecture.webapp.service.admin.BoardService;
 
 @Controller
 @RequestMapping("/admin/board/*")
 public class BoardController {
 	
-	@Autowired
+	/*트랜잭션 전파를 위한 계층을 만들어서 직접 dao접근을 안하고 service에 접근으랳
+	 * 
+	 * @Autowired
 	private NoticeDao noticeDao;
 
 	@Autowired
 	private NoticeFileDao noticeFileDao;
 	
 	@Autowired
-	private MemberDao memberDao;
+	private MemberDao memberDao;*/
+	
+	@Autowired
+	private BoardService service;
 
 	@RequestMapping("notice")
 	public String notice(
@@ -49,7 +53,8 @@ public class BoardController {
 		/*List<NoticeView> list = noticeDao.getList(page, field, query);		
 		model.addAttribute("list", list);*/		
 		
-		model.addAttribute("list", noticeDao.getList(page, field, query));
+		List<NoticeView> list = service.getNoticeList();
+		model.addAttribute("list", list);
 		
 		//String output = String.format("p:%s, q:%s", page, query);
 		//output += String.format("title : %s\n", list.get(0).getTitle());
@@ -63,9 +68,9 @@ public class BoardController {
 				@PathVariable("id") String id,
 				Model model) {
 		
-		model.addAttribute("n", noticeDao.get(id));
-		model.addAttribute("prev", noticeDao.getPrev(id));
-		model.addAttribute("next", noticeDao.getNext(id));
+		model.addAttribute("n", service.getNotice(id));
+		model.addAttribute("prev", service.getNotice(id));
+		model.addAttribute("next", service.getNoticeNext(id));
 		
 		return "admin.board.notice.detail";
 	}
@@ -109,7 +114,7 @@ public class BoardController {
 		
 		//file.getInputStream();
 		
-		String nextId = noticeDao.getNextId();
+		String nextId = service.getNextId();
 		
 		ServletContext ctx = request.getServletContext();
 		String path = ctx.getRealPath(
@@ -151,13 +156,11 @@ public class BoardController {
 		System.out.println(notice.getTitle());
 		notice.setWriterId(writerId);	
 		//int row = noticeDao.insert(title, content, writerId);
-	
-		
+			
 		//글이 등록되고 포인트가 적립되야함 둘다 되거나 둘다 안되거나 트랜잭션
-		int row = noticeDao.insert(notice);
-		memberDao.pointUp(principal.getName());
-		
-		
+		int row = service.insertAndPointUp(notice);
+		//memberDao.pointUp(principal.getName());
+			
 		//noticeFileDao.insert(new NoticeFile(null, fileName, nextId));
 		
 		return "redirect:../notice";
