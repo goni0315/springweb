@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+
+
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+	#board{
+		width:500px;
+		height : 500px;
+		background: gray;
+		position: relative;/* board박스 안에서만 움직임*/
+	}
+	
+	.card{
+		width: 100px;
+		height: 100px;
+		background: yellow;
+		position:absolute; /*postion이 static이면 위치 적용x*/
+		
+		font-size: 40px;
+		text-align: center;
+		line-height: 100px;
+	}
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+ 	$(function(event){
+		/* var location = [
+			{
+				left:"400px",
+				top:"0px"
+			},
+			{
+				left:"400px",
+				top:"150px"
+			},
+			{
+				left:"400px",
+				top:"300px"
+			},
+			{
+				left:"250px",
+				top:"400px"
+			},
+			{
+				left:"0px",
+				top:"400px"
+			},
+			{
+				left:"200px",
+				top:"200px"
+			}
+		]; */
+		var cards = $(".card");
+		cards.draggable();
+		for(var i=0; i<cards.length; i++)
+			cards.eq(i).delay(100*i).animate(location[5]);
+		/*다시해  */
+		
+ 		var rotateButton = $("#rotate-button");
+		rotateButton.click(function(e){
+		//	alert("클릭");
+	 		for(var i=0; i<cards.length; i++){
+	 			if(i==5)
+	 				cards.eq(i).delay(100*i).animate(location[0]);
+	  			else
+	 				cards.eq(i).delay(100*i).animate(location[i+1]);
+	  		}
+		});
+	}) 
+	 
+	
+	 window.addEventListener("load", function(event){
+		 var board = document.querySelector("#board");
+		 var cards = document.querySelectorAll("#board .card");
+		var selected = null;
+var offset = {x:0, y:0};
+		
+		document.onmousedown = function(e){
+			if(e.target.classList.contains("card"))	
+					selected = e.target;
+			
+			offset.x = e.offsetX;
+			offset.y = e.offsetY;
+			
+		};
+		 
+		//cards[0].onmousemove = function(e){//통통
+		document.onmousemove = function(e){
+			console.log("e.x : "+e.x+", e.y : "+e.y);
+			console.log("e.clientX : "+e.clientX+", e.clinetY : "+e.clientY);
+			console.log("e.offsetX : "+e.offsetX+", e.offsetY : "+e.offsetY);
+			console.log("e.screenX : "+e.screenX+", e.screenY : "+e.screenY);
+			if(selected ==null)
+				return;
+			
+			selected.style.left = e.clientX - board.offsetLeft - offset.x + "px";
+			selected.style.top = e.clientY - board.offsetTop - offset.y+"px";
+			
+			
+		};
+		document.onmouseup = function(e){
+			selected = null;
+			offset.x = 0;
+			offset.y = 0;
+			
+		};
+	}); 
+	
+ $(function (){
+	
+	$("#aa").datepicker();
+	})
+
+	
+	
+	
+</script>
+</head>
+<body>
+<input type="text" id="aa">
+<div>
+	<input id="rotate-button" type="button" value="회전하기"/>
+</div>
+<div id ="board">
+	<div>
+		<div class="card">1</div>
+		<div class="card">2</div>
+		<div class="card">3</div>
+		<div class="card">4</div>
+		<div class="card">5</div>
+		<div class="card">6</div>
+	</div>
+</div>
+
+</body>
+</html>
