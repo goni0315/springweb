@@ -26,6 +26,7 @@
 }
  
  
+ 
  window.addEventListener("load",function(e) {
 	var widthButton = document.querySelector("#ex1-tool");
 	var item = document.querySelector("#ex1-box .item1");

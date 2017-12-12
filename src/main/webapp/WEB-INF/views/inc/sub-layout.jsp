@@ -5,8 +5,11 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+html { overflow-y:scroll; }
+</style>
 </head>
-<body>
+<body >
 
 <tiles:insertAttribute name="header" />
 <div>
@@ -14,9 +17,6 @@
 <tiles:insertAttribute name="main"/>
 </div>
 <tiles:insertAttribute name="footer" />
-
-
-
 
 </body>
 </html>
